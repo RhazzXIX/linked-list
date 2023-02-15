@@ -52,9 +52,9 @@ const LinkedList = (function () {
 
   const append = function (data) {
     const nodeTail = tail();
-    const newNode = Node(data, null)
+    const newNode = Node(data, null);
     nodeTail.next = newNode;
-  }
+  };
 
   const size = function () {
     let length = 0;
@@ -72,15 +72,86 @@ const LinkedList = (function () {
     let tempNode = List;
     for (index; index < num; index += 1) {
       if (tempNode === null) {
-        const errorMessage = `Index is up to ${size()} only`
-        throw new Error(errorMessage);
-      };
+        console.log(`Index is up to ${size()} only`);
+        break;
+      }
       tempNode = tempNode.next;
     }
-    return tempNode
-  }
+    return tempNode;
+  };
 
-  return { append, prepend, head, tail, size, at };
+  const pop = function () {
+    if (List === null) {
+      console.log("The list is null");
+      return;
+    }
+    if (size() - 2 < 0) {
+      List = null;
+      return;
+    }
+    const newSize = size() - 2;
+    const nodeTail = at(newSize);
+    nodeTail.next = null;
+  };
+
+  const contains = function (data) {
+    let tempList = List;
+    let hasData = false;
+    while (tempList !== null) {
+      if (tempList.data === data) {
+        hasData = true;
+        break;
+      }
+      tempList = tempList.next;
+    }
+    return hasData;
+  };
+
+  const find = function (data) {
+    let index = 0;
+    console.log(data);
+    if (List === null) {
+      console.log("The List is null");
+      return;
+    }
+    if (!contains(data)) return null;
+    let tempList = List;
+    while (tempList !== null) {
+      if (tempList.data === data) break;
+      index += 1;
+      tempList = tempList.next;
+    }
+
+    return index;
+  };
+
+  const toString = function () {
+    let Node = List;
+    let string = ``;
+    while (Node !== null) {
+      string += `(${Node.data}) -> `;
+      Node = Node.next;
+    }
+
+    if (Node === null) {
+      string += `${Node}`;
+      return string;
+    }
+    return string;
+  };
+
+  return {
+    append,
+    prepend,
+    head,
+    tail,
+    size,
+    at,
+    pop,
+    contains,
+    find,
+    toString,
+  };
 })();
 
 const list1 = LinkedList;
@@ -88,15 +159,31 @@ const testData = "This is test Data";
 
 list1.prepend(testData);
 
-console.log(list1.head());
-
 list1.prepend(165465465);
 
-console.log(list1.size());
+// console.log(list1.size());
 
-console.log(list1.tail());
+// console.log(list1.tail());
 
-list1.append('testing append');
-console.log(list1.tail());
+list1.append("testing append");
+// console.log(list1.tail());
 
-console.log(list1.at(0));
+// console.log(list1.head());
+// console.log(list1.size());
+
+const obj1 = {
+  prop: "test",
+};
+
+// console.log(list1.tail());
+// console.log(list1.contains(testData));
+// console.log(list1.contains('lkadfka'));
+// console.log(list1.contains(165465465));
+// console.log(list1.find('lkadfka'));
+// console.log(list1.find(165465465));
+
+list1.append(obj1);
+
+console.log(list1.find(obj1));
+console.log(typeof list1.at(3));
+console.log(list1.toString());
